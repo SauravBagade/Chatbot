@@ -2,9 +2,9 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 # Import routers
-from routes.auth import router as auth_router
-from routes.chat import router as chat_router
-from routes.upload import router as upload_router
+from backend.routes.auth import router as auth_router
+from backend.routes.chat import router as chat_router
+from backend.routes.upload import router as upload_router
 
 # -------------------------------
 # 🚀 Initialize FastAPI App

@@ -1,19 +1,22 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from datetime import datetime
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
-# Schemas
-from schemas import UserRegister, UserLogin, TokenResponse
-
-# Security
-from utils.security import hash_password, verify_password, create_access_token
-
-# Database
-from database import users_collection
+# ✅ FIXED IMPORTS
+from backend.schemas import UserRegister, UserLogin, TokenResponse
+from backend.database import users_collection
+from backend.utils.security import (
+    hash_password,
+    verify_password,
+    create_access_token,
+    decode_token
+)
 
 # -------------------------------
 # 🚀 Router Setup
 # -------------------------------
 router = APIRouter()
+security = HTTPBearer()
 
 
 # -------------------------------
@@ -22,15 +25,13 @@ router = APIRouter()
 @router.post("/register")
 def register(user: UserRegister):
     try:
-        # Check if user already exists
         existing_user = users_collection.find_one({"username": user.username})
+
         if existing_user:
             raise HTTPException(status_code=400, detail="User already exists")
 
-        # Hash password
         hashed_password = hash_password(user.password)
 
-        # Save user
         users_collection.insert_one({
             "username": user.username,
             "password": hashed_password,
@@ -57,7 +58,6 @@ def login(user: UserLogin):
         if not verify_password(user.password, db_user["password"]):
             raise HTTPException(status_code=400, detail="Invalid password")
 
-        # Create JWT token
         token = create_access_token({"sub": user.username})
 
         return {
@@ -70,14 +70,8 @@ def login(user: UserLogin):
 
 
 # -------------------------------
-# 👤 Get Current User (Optional)
+# 👤 Get Current User
 # -------------------------------
-from fastapi import Depends
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from utils.security import decode_token
-
-security = HTTPBearer()
-
 @router.get("/me")
 def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)):
     try:

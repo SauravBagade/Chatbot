@@ -1,10 +1,10 @@
 from datetime import datetime
 
 # Security
-from utils.security import hash_password, verify_password, create_access_token
+from backend.utils.security import hash_password, verify_password, create_access_token
 
 # Database
-from database import users_collection
+from backend.database import users_collection
 
 
 # -------------------------------

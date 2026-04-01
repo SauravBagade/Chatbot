@@ -6,7 +6,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 # ✅ UPDATED LANGCHAIN IMPORTS
 from langchain_community.vectorstores import FAISS
 from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain.memory import ConversationBufferMemory
+from langchain_community.memory import ConversationBufferMemory
 # -------------------------------
 # 🧠 Model Configuration
 # -------------------------------

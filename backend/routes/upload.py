@@ -2,14 +2,9 @@ from fastapi import APIRouter, UploadFile, File, HTTPException, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 # Schema
-from schemas import UploadResponse
-
-# Model (RAG)
-from model import create_vector_db
-
-# Security
-from utils.security import decode_token
-
+from backend.schemas import UploadResponse
+from backend.model import create_vector_db
+from backend.utils.security import decode_token
 # -------------------------------
 # 🚀 Router Setup
 # -------------------------------

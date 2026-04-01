@@ -3,7 +3,7 @@
 ---
 ```
 
-llama-chatbot/
+chatbot/
 │
 ├── backend/
 │   ├── app.py                     # FastAPI main app

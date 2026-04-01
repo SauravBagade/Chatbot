@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LLaMA Chatbot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background: #f4f6f9;
+    }
+
+    .chat-container {
+      max-width: 800px;
+      margin: 30px auto;
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .chat-box {
+      height: 450px;
+      overflow-y: auto;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 10px;
+      margin-bottom: 15px;
+    }
+
+    .message {
+      margin-bottom: 10px;
+    }
+
+    .user {
+      text-align: right;
+    }
+
+    .bot {
+      text-align: left;
+    }
+
+    .bubble {
+      display: inline-block;
+      padding: 10px 15px;
+      border-radius: 15px;
+      max-width: 75%;
+    }
+
+    .user .bubble {
+      background: #0d6efd;
+      color: white;
+    }
+
+    .bot .bubble {
+      background: #e9ecef;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+  <div class="chat-container">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h4>🤖 LLaMA Chatbot</h4>
+      <button class="btn btn-sm btn-danger" onclick="logout()">Logout</button>
+    </div>
+
+    <!-- Chat Box -->
+    <div id="chatBox" class="chat-box"></div>
+
+    <!-- Input -->
+    <div class="input-group">
+      <input type="text" id="userInput" class="form-control" placeholder="Type your message...">
+      <button class="btn btn-primary" onclick="sendMessage()">Send</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const API = "http://127.0.0.1:8000/api";
+const token = localStorage.getItem("token");
+
+// 🔐 Redirect if not logged in
+if (!token) {
+  window.location.href = "login.html";
+}
+
+// Append message to UI
+function appendMessage(message, sender) {
+  const chatBox = document.getElementById("chatBox");
+
+  const div = document.createElement("div");
+  div.classList.add("message", sender);
+
+  const bubble = document.createElement("div");
+  bubble.classList.add("bubble");
+  bubble.innerText = message;
+
+  div.appendChild(bubble);
+  chatBox.appendChild(div);
+
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+// Send message
+async function sendMessage() {
+  const input = document.getElementById("userInput");
+  const message = input.value.trim();
+
+  if (!message) return;
+
+  appendMessage(message, "user");
+  input.value = "";
+
+  try {
+    const res = await fetch(`${API}/chat`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+      },
+      body: JSON.stringify({ query: message })
+    });
+
+    const data = await res.json();
+
+    appendMessage(data.response || "Error", "bot");
+
+  } catch (err) {
+    appendMessage("Server error ❌", "bot");
+  }
+}
+
+// Load chat history
+async function loadHistory() {
+  try {
+    const res = await fetch(`${API}/history`, {
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    });
+
+    const data = await res.json();
+
+    data.messages.forEach(msg => {
+      appendMessage(msg.content, msg.role === "user" ? "user" : "bot");
+    });
+
+  } catch {
+    console.log("No history");
+  }
+}
+
+// Logout
+function logout() {
+  localStorage.removeItem("token");
+  window.location.href = "login.html";
+}
+
+// Enter key support
+document.getElementById("userInput").addEventListener("keypress", function(e) {
+  if (e.key === "Enter") sendMessage();
+});
+
+// Load history on page load
+loadHistory();
+
+</script>
+
+</body>
+</html>

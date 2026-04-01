@@ -1,3 +1,6 @@
+---
+```
+
 llama-chatbot/
 │
 ├── backend/
@@ -9,26 +12,26 @@ llama-chatbot/
 │   ├── routes/
 │   │   ├── chat.py               # Chat endpoints (protected)
 │   │   ├── upload.py             # File upload (RAG)
-│   │   └── auth.py               # 🔐 Login/Register API
+│   │   └── auth.py               # Login/Register API
 │   │
 │   ├── services/
 │   │   ├── llm_service.py        # LLaMA handling
 │   │   ├── rag_service.py        # FAISS vector logic
 │   │   ├── memory_service.py     # Chat memory
-│   │   └── auth_service.py       # 🔐 Auth business logic
+│   │   └── auth_service.py       # Auth business logic
 │   │
 │   ├── utils/
-│   │   ├── security.py           # 🔐 JWT + password hashing
+│   │   ├── security.py           # JWT + password hashing
 │   │   └── helpers.py
 │   │
 │   └── requirements.txt
 │
 ├── frontend/
-│   ├── index.html                # 💬 Chat UI
-│   ├── login.html                # 🔐 Login page
-│   ├── register.html             # 🆕 Register page
+│   ├── index.html                # Chat UI
+│   ├── login.html                # Login page
+│   ├── register.html             # Register page
 │   ├── app.js                    # Chat API calls
-│   ├── auth.js                   # 🔐 Auth API calls
+│   ├── auth.js                   # Auth API calls
 │   └── style.css
 │
 ├── database/
@@ -46,3 +49,7 @@ llama-chatbot/
 ├── .env                          # Environment variables
 ├── README.md
 └── requirements.txt
+
+````
+
+---

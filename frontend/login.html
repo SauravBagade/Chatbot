@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login | LLaMA Chatbot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #0d6efd, #6610f2);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 400px;
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    }
+
+    .login-title {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="login-card">
+  <h3 class="login-title">🔐 Login</h3>
+
+  <!-- Alert -->
+  <div id="alertBox"></div>
+
+  <input id="username" class="form-control mb-3" placeholder="Username">
+  <input id="password" type="password" class="form-control mb-3" placeholder="Password">
+
+  <button onclick="login()" class="btn btn-primary w-100">Login</button>
+
+  <p class="text-center mt-3">
+    Don't have an account? <a href="register.html">Register</a>
+  </p>
+</div>
+
+<script>
+const API = "http://127.0.0.1:8000/auth";
+
+// Show alert
+function showAlert(message, type="danger") {
+  document.getElementById("alertBox").innerHTML =
+    `<div class="alert alert-${type}">${message}</div>`;
+}
+
+// Login function
+async function login() {
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
+
+  if (!username || !password) {
+    showAlert("Please fill all fields");
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API}/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ username, password })
+    });
+
+    const data = await res.json();
+
+    if (data.access_token) {
+      localStorage.setItem("token", data.access_token);
+      window.location.href = "index.html";
+    } else {
+      showAlert(data.detail || "Login failed");
+    }
+
+  } catch (err) {
+    showAlert("Server error ❌");
+  }
+}
+
+// Enter key support
+document.addEventListener("keypress", function(e) {
+  if (e.key === "Enter") login();
+});
+</script>
+
+</body>
+</html>

@@ -33,4 +33,4 @@ def test_connection():
         client.admin.command("ping")
         print("✅ MongoDB connected successfully")
     except Exception as e:
-        print("❌ MongoDB connection failed:", e)database.py 
+        print("❌ MongoDB connection failed:", e)

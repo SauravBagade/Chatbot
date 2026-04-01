@@ -3,17 +3,10 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from datetime import datetime
 
 # Schemas
-from schemas import ChatRequest, ChatResponse, Message
-
-# Model (LLaMA)
-from model import generate_response
-
-# Security
-from utils.security import decode_token
-
-# Database
-from database import chat_collection
-
+from backend.schemas import ChatRequest, ChatResponse, Message
+from backend.model import generate_response
+from backend.utils.security import decode_token
+from backend.database import chat_collection
 # -------------------------------
 # 🚀 Router Setup
 # -------------------------------

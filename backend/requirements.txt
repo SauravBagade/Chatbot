@@ -1,0 +1,53 @@
+# -------------------------------
+# 🚀 FastAPI Backend
+# -------------------------------
+fastapi
+uvicorn
+
+# -------------------------------
+# 🧠 LLaMA / Transformers
+# -------------------------------
+transformers
+torch
+accelerate
+sentencepiece
+
+# -------------------------------
+# 🔗 LangChain (RAG)
+# -------------------------------
+langchain
+langchain-community
+
+# -------------------------------
+# 🔍 Embeddings + Vector DB
+# -------------------------------
+faiss-cpu
+sentence-transformers
+
+# -------------------------------
+# 🗄️ Database (MongoDB)
+# -------------------------------
+pymongo
+
+# -------------------------------
+# 🔐 Security (JWT + Hashing)
+# -------------------------------
+passlib[bcrypt]
+python-jose
+
+# -------------------------------
+# 📄 File Upload Support
+# -------------------------------
+python-multipart
+
+# -------------------------------
+# ⚙️ Utilities
+# -------------------------------
+pydantic
+numpy
+scikit-learn
+
+# -------------------------------
+# 🔐 Hugging Face Access
+# -------------------------------
+huggingface-hub

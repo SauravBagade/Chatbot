@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+
+  # -------------------------------
+  # 🚀 Backend Service
+  # -------------------------------
+  backend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: llama-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - MONGO_URL=mongodb://mongo:27017
+    depends_on:
+      - mongo
+    volumes:
+      - ../vectorstore:/app/vectorstore
+
+  # -------------------------------
+  # 🗄️ MongoDB Service
+  # -------------------------------
+  mongo:
+    image: mongo:6
+    container_name: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - ../database/data:/data/db
+      - ../database/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js

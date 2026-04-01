@@ -1,5 +1,5 @@
 from datetime import datetime
-from database import chat_collection
+from backend.database import chat_collection
 
 # -------------------------------
 # 💬 Add Message to Memory (DB)
